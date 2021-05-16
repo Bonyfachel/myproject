@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="50dp"
-    app:cardBackgroundColor="@color/white">
+    android:paddingLeft="10dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="50dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +15,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_friend_photo"
             android:layout_width="100dp"
-            android:layout_height="100dp"/>
+            android:layout_height="100dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,24 +23,38 @@
             android:orientation="vertical">
 
             <TextView
-                android:paddingLeft="10dp"
                 android:id="@+id/tv_friend_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:paddingLeft="10dp"
+                android:text="TextView"
                 android:textColor="@color/blue_500"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_friend_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/tv_friend_bdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
                 android:text="TextView" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="10dp" />
+                android:layout_height="19dp" />
 
-            <TextView
-                android:id="@+id/tv_friend_status"
-                android:paddingLeft="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:text="Добавить в календарь" />
+
         </LinearLayout>
     </LinearLayout>
 

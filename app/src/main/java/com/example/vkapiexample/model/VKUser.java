@@ -20,4 +20,7 @@ public class VKUser {
 
     @SerializedName("status")
     public String status;
+
+    @SerializedName("bdate")
+    public String bdate;
 }

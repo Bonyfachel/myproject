@@ -1,11 +1,20 @@
 package com.example.vkapiexample;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.ParseException;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.util.Log;
 
 import com.example.vkapiexample.adapter.VKFriendsAdapter;
 import com.example.vkapiexample.model.VKFriendsResponse;
@@ -13,8 +22,11 @@ import com.example.vkapiexample.model.VKResponse;
 import com.example.vkapiexample.model.VKUser;
 import com.example.vkapiexample.service.VKService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,6 +44,7 @@ public class HomeActivity extends BaseActivity {
     private VKService vkService;
     private List<VKUser> friendsList;
     private VKFriendsAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +72,14 @@ public class HomeActivity extends BaseActivity {
         rvFriends.addItemDecoration(decorator);
 
         requestFriends();
+        addBdateInCalendar();
     }
 
     public void requestFriends() {
         Call<VKResponse<VKFriendsResponse>> call = vkService.getFriends(
                 loadToken(),
                 5000,
-                "photo_100,status",
+                "photo_100,status,bdate",
                 VERSION
         );
 
@@ -82,8 +96,24 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<VKResponse<VKFriendsResponse>> call, Throwable t) {
-                android.util.Log.d("HomeActitivity", t.toString());
+                android.util.Log.d("HomeActivity", t.toString());
             }
         });
     }
+    public void addBdateInCalendar() {
+    Calendar beginTime = Calendar.getInstance();
+    beginTime.set(2021, 4, 17, 7, 30);
+    Calendar endTime = Calendar.getInstance();
+    endTime.set(2021, 4, 18, 8, 30);
+    Intent intent = new Intent(Intent.ACTION_INSERT)
+            .setData(CalendarContract.Events.CONTENT_URI)
+            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+            .putExtra(CalendarContract.Events.TITLE, "День рождения")
+            .putExtra(CalendarContract.Events.DESCRIPTION, "Group class")
+            .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
+            .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+            .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
+    startActivity(intent);
+}
 }
