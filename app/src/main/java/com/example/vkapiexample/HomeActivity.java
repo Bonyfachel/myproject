@@ -109,9 +109,11 @@ public class HomeActivity extends BaseActivity {
             .setData(CalendarContract.Events.CONTENT_URI)
             .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
             .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+            //.putExtra(CalendarContract.ACTION_EVENT_REMINDER, "1 day before", "2 days before" )
+            .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, "true" )
             .putExtra(CalendarContract.Events.TITLE, "День рождения")
-            .putExtra(CalendarContract.Events.DESCRIPTION, "Group class")
-            .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
+            .putExtra(CalendarContract.Events.DESCRIPTION, "Сегодня . . . отмечает свой день рождения! Не забудьте поздравить!")
+            .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
             .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
             .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
     startActivity(intent);
