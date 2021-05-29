@@ -29,31 +29,38 @@
                 android:paddingLeft="10dp"
                 android:text="TextView"
                 android:textColor="@color/blue_500"
+                android:textSize="18sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_friend_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/tv_friend_bdate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:text="TextView" />
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="19dp" />
+                android:layout_height="wrap_content" />
 
-            <CheckBox
-                android:id="@+id/checkBox"
+            <TextView
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
-                android:layout_height="22dp"
-                android:text="Добавить в календарь" />
+                android:layout_height="wrap_content"
+                android:paddingLeft="14dp"
+                android:text="Дата рождения:"
+                android:textColor="@color/black"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/tv_friend_bdate"
+                android:layout_width="113dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="30dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+
+            <Button
+                android:id="@+id/bt_addBdate"
+                android:layout_width="188dp"
+                android:layout_height="40dp"
+                android:paddingLeft="10dp"
+                android:text="Добавить в календарь"
+                android:textSize="8sp" />
 
         </LinearLayout>
     </LinearLayout>

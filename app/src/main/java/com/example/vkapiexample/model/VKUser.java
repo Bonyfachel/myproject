@@ -18,9 +18,6 @@ public class VKUser {
     @SerializedName("photo_100")
     public String photo100;
 
-    @SerializedName("status")
-    public String status;
-
     @SerializedName("bdate")
     public String bdate;
 }

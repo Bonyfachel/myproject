@@ -12,4 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Войти через VK" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="187dp"
+        android:text="TextView" />
 </FrameLayout>

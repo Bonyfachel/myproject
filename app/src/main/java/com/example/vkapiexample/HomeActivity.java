@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ParseException;
@@ -15,6 +16,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vkapiexample.adapter.VKFriendsAdapter;
 import com.example.vkapiexample.model.VKFriendsResponse;
@@ -29,6 +34,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,6 +50,8 @@ public class HomeActivity extends BaseActivity {
     private VKService vkService;
     private List<VKUser> friendsList;
     private VKFriendsAdapter adapter;
+    private TextView friendName;
+
 
 
     @Override
@@ -51,6 +59,7 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        friendName = findViewById(R.id.tv_friend_name);
         rvFriends = findViewById(R.id.rv_vk_friends);
         rvFriends.setLayoutManager(new LinearLayoutManager(this));
 
@@ -61,7 +70,7 @@ public class HomeActivity extends BaseActivity {
 
         vkService = retrofit.create(VKService.class);
         friendsList = new ArrayList<>();
-        adapter = new VKFriendsAdapter(friendsList);
+        adapter = new VKFriendsAdapter(friendsList, this);
 
         DividerItemDecoration decorator =
                 new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
@@ -72,8 +81,7 @@ public class HomeActivity extends BaseActivity {
         rvFriends.addItemDecoration(decorator);
 
         requestFriends();
-        //addBdateInCalendar();
-    }
+     }
 
     public void requestFriends() {
         Call<VKResponse<VKFriendsResponse>> call = vkService.getFriends(
@@ -100,22 +108,4 @@ public class HomeActivity extends BaseActivity {
             }
         });
     }
-    public void addBdateInCalendar() {
-    Calendar beginTime = Calendar.getInstance();
-    beginTime.set(2021, 4, 31, 7, 30);
-    Calendar endTime = Calendar.getInstance();
-    endTime.set(2021, 4, 31, 8, 30);
-    Intent intent = new Intent(Intent.ACTION_INSERT)
-            .setData(CalendarContract.Events.CONTENT_URI)
-            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-            //.putExtra(CalendarContract.ACTION_EVENT_REMINDER, "1 day before", "2 days before" )
-            //.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, "true" )
-            .putExtra(CalendarContract.Events.TITLE, "День рождения")
-            .putExtra(CalendarContract.Events.DESCRIPTION, "Сегодня . . . отмечает свой день рождения! Не забудьте поздравить!")
-            //.putExtra(CalendarContract.Events.EVENT_LOCATION, "")
-            //.putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-            .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
-    startActivity(intent);
-}
 }
