@@ -2,10 +2,14 @@ package com.example.vkapiexample;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 public class AuthActivity extends BaseActivity {
 
@@ -50,20 +54,20 @@ public class AuthActivity extends BaseActivity {
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
+                    if(url.contains("authorize_url")) {
+                        String authorizeURL = extractAuthorizeURL(url);
 
-                    if(url.contains("access_token")) {
-                        String accessToken = url
-                                .split("#")[1]
-                                .split("&")[0]
-                                .split("=")[1];
+                        if (url.contains("access_token")) {
+                            String accessToken = extractAccessToken(authorizeURL);
 
-                        saveToken(accessToken);
+                            saveToken(accessToken);
 
-                        android.util.Log.i(LOG_TAG, accessToken);
+                            //android.util.Log.i(LOG_TAG, accessToken);
 
-                        dialog.dismiss();
+                            dialog.dismiss();
 
-                        startHomeActivity();
+                            startHomeActivity();
+                        }
                     }
                 }
             });
@@ -75,5 +79,42 @@ public class AuthActivity extends BaseActivity {
         Intent intent = new Intent(AuthActivity.this, HomeActivity.class);
         startActivity(intent);
     }
+    private String extractAuthorizeURL(String url) {
+        String authorizeURL;
 
+        try {
+            authorizeURL = URLDecoder.decode(url, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+
+            return "";
+        }
+
+        Uri uri = Uri.parse(authorizeURL);
+
+        return uri.getQueryParameter("authorize_url");
+    }
+
+    private String extractAccessToken(String authorizeURL) {
+        String accessToken;
+
+        try {
+            authorizeURL = URLDecoder.decode(authorizeURL, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+
+            return "";
+        }
+
+        android.util.Log.d(LOG_TAG, "authorizeURL: " + authorizeURL);
+
+        accessToken = authorizeURL
+                .split("#")[1]
+                .split("&")[0]
+                .split("=")[1];
+
+        android.util.Log.d(LOG_TAG, "accessToken: " + accessToken);
+
+        return accessToken;
+    }
 }

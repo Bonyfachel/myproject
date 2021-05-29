@@ -72,7 +72,7 @@ public class HomeActivity extends BaseActivity {
         rvFriends.addItemDecoration(decorator);
 
         requestFriends();
-        addBdateInCalendar();
+        //addBdateInCalendar();
     }
 
     public void requestFriends() {
@@ -102,19 +102,19 @@ public class HomeActivity extends BaseActivity {
     }
     public void addBdateInCalendar() {
     Calendar beginTime = Calendar.getInstance();
-    beginTime.set(2021, 4, 17, 7, 30);
+    beginTime.set(2021, 4, 31, 7, 30);
     Calendar endTime = Calendar.getInstance();
-    endTime.set(2021, 4, 18, 8, 30);
+    endTime.set(2021, 4, 31, 8, 30);
     Intent intent = new Intent(Intent.ACTION_INSERT)
             .setData(CalendarContract.Events.CONTENT_URI)
             .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
             .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
             //.putExtra(CalendarContract.ACTION_EVENT_REMINDER, "1 day before", "2 days before" )
-            .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, "true" )
+            //.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, "true" )
             .putExtra(CalendarContract.Events.TITLE, "День рождения")
             .putExtra(CalendarContract.Events.DESCRIPTION, "Сегодня . . . отмечает свой день рождения! Не забудьте поздравить!")
-            .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
-            .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+            //.putExtra(CalendarContract.Events.EVENT_LOCATION, "")
+            //.putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
             .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
     startActivity(intent);
 }
