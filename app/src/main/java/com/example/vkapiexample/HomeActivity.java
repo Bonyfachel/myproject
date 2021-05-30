@@ -52,8 +52,6 @@ public class HomeActivity extends BaseActivity {
     private VKFriendsAdapter adapter;
     private TextView friendName;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -3,12 +3,14 @@ package com.example.vkapiexample.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.provider.CalendarContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +20,9 @@ import com.example.vkapiexample.R;
 import com.example.vkapiexample.model.VKUser;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +54,6 @@ class VKFriendViewHolder extends RecyclerView.ViewHolder {
                     .into(photo);
 
     }
-
 }
 
 public class VKFriendsAdapter extends RecyclerView.Adapter<VKFriendViewHolder> {
@@ -85,9 +89,15 @@ public class VKFriendsAdapter extends RecyclerView.Adapter<VKFriendViewHolder> {
         addBdate.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               friends.get(position);
-               
-               addBdateInCalendar();
+                String a = friends.get(position).bdate;
+                if (friends.get(position).bdate != "") {
+                    try {
+                        addBdateInCalendar(friends.get(position).firstName, friends.get(position).lastName, friends.get(position).bdate);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(activity.getApplicationContext(), "Упс! Пользователь не установил свою дату рождения!", Toast.LENGTH_LONG).show();                }
             }
         });
     }
@@ -98,25 +108,37 @@ public class VKFriendsAdapter extends RecyclerView.Adapter<VKFriendViewHolder> {
     }
 
 
-    public void addBdateInCalendar() throws NullPointerException {
+    public void addBdateInCalendar(String name, String lastName, String bdate) throws NullPointerException, ParseException {
+
+        String fromDate = bdate;
+        DateFormat df = new SimpleDateFormat("dd.MM");
+        Date dtt = df.parse(fromDate);
+        System.out.println("the date is " + df.format(dtt));
+        Log.d("the date is ", df.format(dtt));
+        Date date= new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int month = dtt.getMonth();
+        int day = dtt.getDay();
+
 
         int year = Calendar.getInstance().get(Calendar.YEAR);
 
         Calendar beginTime = Calendar.getInstance();
-        beginTime.set(year, 4, 31, 6, 30);
+        beginTime.set(year, month, day, 6, 30);
         Calendar endTime = Calendar.getInstance();
-        endTime.set(year, 4, 31, 23, 59);
+        endTime.set(year, month, day, 23, 59);
         Intent intent = new Intent(Intent.ACTION_INSERT)
                 .setData(CalendarContract.Events.CONTENT_URI)
                 .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
                 .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
                 //.putExtra(CalendarContract.ACTION_EVENT_REMINDER, "1 day before", "2 days before" )
                 .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, "true" )
-                .putExtra(CalendarContract.Events.TITLE, "День рождения")
-                .putExtra(CalendarContract.Events.DESCRIPTION, "Сегодня . . . отмечает свой день рождения! Не забудьте поздравить!")
+                .putExtra(CalendarContract.Events.TITLE, "День рождения вашего друга/подруги!")
+                .putExtra(CalendarContract.Events.DESCRIPTION, "Сегодня " + name + " " + lastName +
+                        " отмечает свой день рождения! Не забудьте поздравить!");
                 //.putExtra(CalendarContract.Events.EVENT_LOCATION, "")
                 //.putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-                .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
         activity.startActivity(intent);
     }
 }

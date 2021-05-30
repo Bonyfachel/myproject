@@ -16,6 +16,5 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="187dp"
-        android:text="TextView" />
+        android:layout_height="187dp" />
 </FrameLayout>
