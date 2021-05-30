@@ -90,7 +90,7 @@ public class VKFriendsAdapter extends RecyclerView.Adapter<VKFriendViewHolder> {
             @Override
             public void onClick(View v) {
                 String a = friends.get(position).bdate;
-                if (friends.get(position).bdate != "") {
+                if (friends.get(position).bdate != null) {
                     try {
                         addBdateInCalendar(friends.get(position).firstName, friends.get(position).lastName, friends.get(position).bdate);
                     } catch (ParseException e) {
@@ -110,37 +110,39 @@ public class VKFriendsAdapter extends RecyclerView.Adapter<VKFriendViewHolder> {
 
     public void addBdateInCalendar(String name, String lastName, String bdate) throws NullPointerException, ParseException {
 
-        String fromDate = bdate;
-        DateFormat df = new SimpleDateFormat("dd.MM");
-        Date dtt = df.parse(fromDate);
-        System.out.println("the date is " + df.format(dtt));
-        Log.d("the date is ", df.format(dtt));
-        Date date= new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int month = dtt.getMonth();
-        int day = dtt.getDate();
+            String fromDate = bdate;
+            DateFormat df = new SimpleDateFormat("dd.MM");
+            Date dtt = df.parse(fromDate);
+            System.out.println("the date is " + df.format(dtt));
+            Log.d("the date is ", df.format(dtt));
+            Date date = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            int month = dtt.getMonth();
+            int day = dtt.getDate();
 
 
-        int year = Calendar.getInstance().get(Calendar.YEAR);
+            int year = Calendar.getInstance().get(Calendar.YEAR);
 
-        Calendar beginTime = Calendar.getInstance();
-        beginTime.set(year, month, day, 6, 30);
-        Calendar endTime = Calendar.getInstance();
-        endTime.set(year, month, day, 23, 59);
-        Intent intent = new Intent(Intent.ACTION_INSERT)
-                .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-                .putExtra(CalendarContract.ACTION_EVENT_REMINDER, "1 day in advance")
-                .putExtra(CalendarContract.Events.RRULE, "FREQ=Yearly")
-                .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, "true" )
-                .putExtra(CalendarContract.Events.TITLE, "День рождения вашего друга/подруги!")
-                .putExtra(CalendarContract.Events.DESCRIPTION, "Сегодня " + name + " " + lastName +
-                        " отмечает свой день рождения! Не забудьте поздравить!");
-                //.putExtra(CalendarContract.Events.EVENT_LOCATION, "")
-                //.putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-        activity.startActivity(intent);
+            Calendar beginTime = Calendar.getInstance();
+            beginTime.set(year, month, day, 6, 30);
+            Calendar endTime = Calendar.getInstance();
+            endTime.set(year, month, day, 23, 59);
+            Intent intent = new Intent(Intent.ACTION_INSERT)
+                    .setData(CalendarContract.Events.CONTENT_URI)
+                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                    .putExtra(CalendarContract.ACTION_EVENT_REMINDER, 1)
+                    .putExtra(CalendarContract.Events.RRULE, "FREQ=Yearly")
+                    //.putExtra(CalendarContract.Events.)
+                    .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, "true")
+                    .putExtra(CalendarContract.Events.TITLE, "День рождения вашего друга/подруги!")
+                    .putExtra(CalendarContract.Events.DESCRIPTION, "Сегодня " + name + " " + lastName +
+                            " отмечает свой день рождения! Не забудьте поздравить!");
+            //.putExtra(CalendarContract.Events.EVENT_LOCATION, "")
+            //.putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+            activity.startActivity(intent);
+
     }
 }
 
