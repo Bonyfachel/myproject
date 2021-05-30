@@ -119,7 +119,7 @@ public class VKFriendsAdapter extends RecyclerView.Adapter<VKFriendViewHolder> {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         int month = dtt.getMonth();
-        int day = dtt.getDay();
+        int day = dtt.getDate();
 
 
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -132,7 +132,8 @@ public class VKFriendsAdapter extends RecyclerView.Adapter<VKFriendViewHolder> {
                 .setData(CalendarContract.Events.CONTENT_URI)
                 .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
                 .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-                //.putExtra(CalendarContract.ACTION_EVENT_REMINDER, "1 day before", "2 days before" )
+                .putExtra(CalendarContract.ACTION_EVENT_REMINDER, "1 day in advance")
+                .putExtra(CalendarContract.Events.RRULE, "FREQ=Yearly")
                 .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, "true" )
                 .putExtra(CalendarContract.Events.TITLE, "День рождения вашего друга/подруги!")
                 .putExtra(CalendarContract.Events.DESCRIPTION, "Сегодня " + name + " " + lastName +
